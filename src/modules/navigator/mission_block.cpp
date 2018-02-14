@@ -128,9 +128,7 @@ MissionBlock::is_mission_item_reached()
 		float dist_xy = -1.0f;
 		float dist_z = -1.0f;
 
-		float altitude_amsl = _mission_item.altitude_is_relative
-				      ? _mission_item.altitude + _navigator->get_home_position()->alt
-				      : _mission_item.altitude;
+		const float altitude_amsl = get_absolute_altitude_for_item(_mission_item);
 
 		dist = get_distance_to_point_global_wgs84(_mission_item.lat, _mission_item.lon, altitude_amsl,
 				_navigator->get_global_position()->lat,
@@ -497,7 +495,7 @@ MissionBlock::mission_item_to_position_setpoint(const mission_item_s &item, posi
 
 	sp->lat = item.lat;
 	sp->lon = item.lon;
-	sp->alt = item.altitude_is_relative ? item.altitude + _navigator->get_home_position()->alt : item.altitude;
+	sp->alt = get_absolute_altitude_for_item(item);
 	sp->yaw = item.yaw;
 	sp->yaw_valid = PX4_ISFINITE(item.yaw);
 	sp->loiter_radius = (fabsf(item.loiter_radius) > NAV_EPSILON_POSITION) ? fabsf(item.loiter_radius) :
@@ -704,4 +702,15 @@ MissionBlock::mission_apply_limitation(mission_item_s &item)
 	/*
 	 * Add other limitations here
 	 */
+}
+
+float
+MissionBlock::get_absolute_altitude_for_item(const mission_item_s &mission_item)
+{
+	if (mission_item.altitude_is_relative) {
+		return mission_item.altitude + _navigator->get_home_position()->alt;
+
+	} else {
+		return mission_item.altitude;
+	}
 }

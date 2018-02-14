@@ -157,8 +157,6 @@ private:
 	 */
 	void do_abort_landing();
 
-	float get_absolute_altitude_for_item(const mission_item_s &mission_item);
-
 	/**
 	 * Read the current and the next mission item. The next mission item read is the
 	 * next mission item that contains a position.

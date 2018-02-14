@@ -403,17 +403,6 @@ Mission::advance_mission()
 	}
 }
 
-float
-Mission::get_absolute_altitude_for_item(const mission_item_s &mission_item)
-{
-	if (mission_item.altitude_is_relative) {
-		return mission_item.altitude + _navigator->get_home_position()->alt;
-
-	} else {
-		return mission_item.altitude;
-	}
-}
-
 void
 Mission::set_mission_items()
 {

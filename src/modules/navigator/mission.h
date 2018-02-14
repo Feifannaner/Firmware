@@ -148,11 +148,6 @@ private:
 	void heading_sp_update();
 
 	/**
-	 * Updates the altitude sp to follow a foh
-	 */
-	void altitude_sp_foh_update();
-
-	/**
 	 * Update the cruising speed setpoint.
 	 */
 	void cruising_speed_sp_update();
@@ -162,7 +157,7 @@ private:
 	 */
 	void do_abort_landing();
 
-	float get_absolute_altitude_for_item(struct mission_item_s &mission_item);
+	float get_absolute_altitude_for_item(const mission_item_s &mission_item);
 
 	/**
 	 * Read the current and the next mission item. The next mission item read is the
@@ -230,7 +225,6 @@ private:
 	DEFINE_PARAMETERS(
 		(ParamFloat<px4::params::MIS_DIST_1WP>) _param_dist_1wp,
 		(ParamFloat<px4::params::MIS_DIST_WPS>) _param_dist_between_wps,
-		(ParamInt<px4::params::MIS_ALTMODE>) _param_altmode,
 		(ParamInt<px4::params::MIS_YAWMODE>) _param_yawmode,
 		(ParamInt<px4::params::MIS_MNT_YAW_CTL>) _param_mnt_yaw_ctl
 	)
@@ -253,11 +247,6 @@ private:
 	bool _inited{false};
 	bool _home_inited{false};
 	bool _need_mission_reset{false};
-
-	float _min_current_sp_distance_xy{FLT_MAX}; /**< minimum distance which was achieved to the current waypoint  */
-
-	float _distance_current_previous{0.0f}; /**< distance from previous to current sp in pos_sp_triplet,
-					    only use if current and previous are valid */
 
 	enum work_item_type {
 		WORK_ITEM_TYPE_DEFAULT,		/**< default mission item */
